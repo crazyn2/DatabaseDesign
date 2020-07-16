@@ -15,7 +15,7 @@ dependencies {
     implementation 'com.google.guava:guava:28.1-jre'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
 }
-mainClassName = 'Psql.Psqlbase'
+//mainClassName = 'Psql.Psqlbase'
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }

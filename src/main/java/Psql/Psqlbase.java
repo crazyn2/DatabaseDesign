@@ -417,14 +417,95 @@ public class Psqlbase extends Design{
 			System.exit(-1);
 		}
 	}
+	public Boolean pass(String queryS){
+		Boolean result = null;
+		try{
+			ResultSet rs = stmt.executeQuery(queryS);
+			if(!rs.isBeforeFirst()){
+				result = false;
+			}
+			else{
+				result = true;
+			}
+			rs.close();
+		}catch (Exception e){
+			System.err.print("get data error!");
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		return result;
+	}
 	public static void main(String args[]) {
 		try {
+			String ssql = "select * from name_password where name='" ;
+			String ssql1 =	"' and password='";
+			String ssql2 = "'and position='";
 			Class.forName("org.postgresql.Driver");
-
-//			Statement stmt = connect.createStatement();
+			TeacherBase teacherBase = new TeacherBase();
+			AdminBase adminBase = new AdminBase();
+			StudentBase studentBase = new StudentBase();
 			Psqlbase psqlbase = new Psqlbase();
+//			Psqlbase.Begin begin = psqlbase.new Begin();
+			Begin begin = new Begin(){
+				@Override
+				public void addFucntion() {
+					btnNewButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							name = textField.getText();
+							password = textField_1.getText();
+							String tmp = ssql + name + ssql1 + password + ssql2 +"学生" + "'";
+							if(name == null || password == null){
+								jLabel.setText("账号或密码错误");
+							}
+							else if (psqlbase.pass(tmp)){
+								setVisible(false);
+								studentBase.setVisible(true);
+							}
+							else{
+								jLabel.setText("账号或密码错误");
+							}
+						}
+					});
+				}
+				public void addFunction1(){
+					btnNewButton_1.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							name = textField.getText();
+							password = textField_1.getText();
+							String tmp = ssql + name + ssql1 + password + ssql2 + "教师" + "'";
+							if(psqlbase.pass(tmp)){
+								setVisible(false);
+								teacherBase.setVisible(true);
+							}
+							else{
+								jLabel.setText("账号或密码错误");
+							}
+						}
+					});
+				}
+				public void addFunction2(){
+					btnNewButton_2.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							name = textField.getText();
+							password = textField_1.getText();
+							String tmp = ssql + name + ssql1 + password + ssql2 +"管理员" + "'";
+							if(psqlbase.pass(tmp)){
+								setVisible(false);
+								adminBase.setVisible(true);
+							}
+							else{
+								jLabel.setText("账号或密码错误");
+							}
+						}
+					});
+				}
+			};
 			if(args.length == 0) {//没有参数启动图形界面
-				psqlbase.setVisible(true);
+//				psqlbase.setVisible(true);
+				begin.setVisible(true);
 				System.out.println("Usage:\n{--count-by-year " +
 						"| --order-by-score | --count-by-avg " +
 						"| -qs <students number> | -qt <teacher nummber> " +
