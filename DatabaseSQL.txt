@@ -1,0 +1,102 @@
+create table zhangbingyang_students(zby_sno text primary key, zby_sname text not null, zby_ssex text check(zby_ssex='男' or zby_ssex='女'),
+	zby_age smallint check(zby_age > 0), zby_address text,zby_value smallint check(zby_value >= 0) default 0);
+create table zhangbingyang_teachers(zby_tno text primary key, zby_tname text not null, zby_tsex text check(zby_tsex='男' or zby_tsex='女'),
+	zby_tage smallint check(zby_tage > 0), zby_position text, zby_phone text unique);
+create table zhangbingyang_courses(zby_cno text , zby_name text, zby_tno text references zhangbingyang_teachers(zby_tno) on delete cascade, 
+	zby_term text not null, zby_time smallint check(zby_time >= 0), zby_exam text check(zby_exam = '考试' or zby_exam = '考查'), zby_csno text not null,
+	zby_value smallint check(zby_value > 0), primary key(zny,cno, zby_tno), unique(zby_cno, zby_tno, zby_csno));
+create table zhangbingyang_reports(zby_sno text references zhangbingyang_students(zby_sno) on delete cascade, zby_term text ,
+	zby_cno text references zhangbingyang_courses(zby_cno) on delete cascade, zby_score smallint check(zby_score  >= 0), 
+	zby_tno text references zhangbingyang_teachers(zby_tno) on delete cascade, zby_zsno text, primary key (zby_sno,zby_cno,zby_term, zby_score),
+	foreign key (zby_cno, zby_tno, zby_csno) references zhangbingyang_courses(zby_cno, zby_tno, zby_csno) on delete cascade);
+create table name_password(name text primary key, password text not null, position text check(position='教师' or position='学生' or position='管理员'));
+ S01   | 王建平                  | 男   | 1995-10-12 | D01
+ S02   | 刘华                    | 女   | 1997-08-21 | D01
+ S03   | 范林军                  | 女   | 1998-02-11 | D02
+ S04   | 李伟                    | 男   | 1996-12-22 | D03
+ S05   | 黄河                    | 男   | 1999-10-31 | D03
+ S06   | 长江                    | 男   | 1994-04-08 | D03
+  tno | tname  |       temail        | tsalary
+-----+--------+---------------------+---------
+ T01 | 刘涛   | LT@zjut.edu.cn      |    4300
+ T02 | 吴碧燕 | WBY@zjut.edu.cn     |    2500
+ T03 | 张莹   | ZY@zjut.edu.cn      |    3000
+ T04 | 张宁华 | ZNY@zjut.edu.cn     |    5500
+ T05 | 叶烨   | Yeye@zjut.edu.cn    |    3800
+ T06 | 杨兰   | YL@zjut.edu.cn      |    3500
+ T07 | 程媛媛 | ChengYY@zjut.edu.cn |    5000
+ C01 | C++                |       4
+ C07 | 英语               |       4
+ C02 | UML                |       3
+ C03 | JAVA               |       3
+ C04 | 算法分析与设计     |       2
+ C05 | 数据库原理及其应用 |       2
+ C06 | 数据结构与算法分析 |       2
+ 
+ sno | tno | cno | score
+-----+-----+-----+-------
+ S01 | T01 | C01 |    83
+ S01 | T03 | C03 |    83
+ S02 | T01 | C01 |    75
+ S02 | T02 | C02 |    59
+ S02 | T03 | C03 |
+ S02 | T04 | C04 |
+ S02 | T05 | C05 |    77
+ S02 | T06 | C06 |    86
+ S02 | T07 | C07 |    80
+ S03 | T02 | C02 |    88
+ S03 | T04 | C04 |    76
+ S04 | T05 | C05 |    90
+ S04 | T06 | C06 |    89
+ S26 | T04 | C04 |    72
+ S26 | T05 | C05 |    95
+ S26 | T07 | C07 |    55
+ S52 | T01 | C01 |    61
+ S52 | T05 | C05 |    90
+ S52 | T07 | C07 |
+insert into zhangbingyang_students values('S01', '王建平', '男', '10-12'),
+ ,('S02','刘华','女','08-21')
+ ,('S03','范林军','女', '02-11')
+ ,('S04','李伟','男','12-22')
+ ,('S05','黄河','男','10-31')
+ ,('S06','长江','男','04-08');
+ insert into zhangbingyang_teachers values ('T01','刘涛', '男', 34,'助教','LT@zjut.edu.cn'),
+ ('T02','吴碧燕','女',23,'教授','WBY@zjut.edu.cn'),
+ ('T03','张莹','女',54,'副教授','ZY@zjut.edu.cn'),
+ ('T04','张宁华','男',34,'副教授','ZNY@zjut.edu.cn'),
+ ('T05','叶烨','男',37,'教授','Yeye@zjut.edu.cn'),
+ ('T06','杨兰','女',54,'副教授','YL@zjut.edu.cn'),
+ ('T07','程媛媛','女',33,'教授','ChengYY@zjut.edu.cn');
+insert into zhangbingyang_courses values ('C01','C++','T01','2018/2019',48,'考试',4,'R01'),
+ ('C07','英语','T07','2018/2019',64,'考试',6,'R01'),
+ ('C02','UML','T02','2018/2019',48,'考查',3,'R01'),
+ ('C03','JAVA','T03','2018/2019',64,'考查',4,'R01'),
+ ('C04','算法分析与设计','T04','2018/2019',56,'考试',4,'R01'),
+ ('C05','数据库原理及其应用','T05','2018/2019',45,'考试',5,'R01'),
+ ('C06','数据结构与算法分析','T06','2018/2019',56,'考查',6,'R01');
+ insert into zhangbingyang_reports values 
+ ('S01','2018/2019','C01',83,'T01'),
+ ('S01','2018/2019','C03',83,'T03'),
+ ('S02','2018/2019','C01',59,'T02'),
+ ('S02','2018/2019','C05',77,'T05'),
+ ('S02','2018/2019','C06',86,'T06'),
+ ('S02','2018/2019','C07',80,'T07'),
+ ('S03','2018/2019','C02',88,'T02'),
+ ('S03','2018/2019','C04',76,'T04'),
+ ('S04','2018/2019','C05',90,'T05'),
+ ('S04','2018/2019','C06',89,'T06'),
+ ('S06','2018/2019','C04',72,'T04'),
+ ('S06','2018/2019','C05',95,'T05'),
+ ('S06','2018/2019','C07',55,'T07'),
+ ('S05','2018/2019','C01',61,'T01'),
+ ('S05','2018/2019','C05',90,'T05'),
+ ('S05','2018/2019','C07',78,'T07');
+create or replace function update_value() returns trigger as $example_table$
+	begin
+		update zhangbingyang_students set zby_value = zby_value + (select zby_value from zhangbingyang_courses where zby_cno = new.zby_cno) 
+		where zby_sno = new.zby_sno;
+		raise notice 'done %', new.zby_sno;
+		return null;
+	end; 
+$example_table$ LANGUAGE plpgsql;
+ create trigger autoupdate_value after insert on zhangbingyang_reports FOR EACH ROW EXECUTE PROCEDURE update_value();
