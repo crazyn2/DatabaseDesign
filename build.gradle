@@ -1,0 +1,28 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation fileTree(dir:'libs',includes:['*.jar'])
+    implementation 'com.google.guava:guava:28.1-jre'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
+}
+//mainClassName = 'Psql.Psqlbase'
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+allprojects {
+	gradle.projectsEvaluated {
+		asks.withType(JavaCompile) {
+			options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+		}
+	}
+}

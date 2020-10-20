@@ -1,0 +1,14 @@
+package Psql;
+
+public class Srank extends Reports{
+	private int rank;
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+	
+}

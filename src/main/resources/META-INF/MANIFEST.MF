@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Main-Class: Psql.Psqlbase
+Class-Path: failureaccess-1.0.1.jar checker-qual-2.8.1.jar junit-4.12.ja
+ r json-20190722.jar error_prone_annotations-2.3.2.jar listenablefuture-
+ 9999.0-empty-to-avoid-conflict-with-guava.jar gson-2.8.6.jar j2objc-ann
+ otations-1.3.jar postgresql-42.2.12.jar guava-28.1-jre.jar postgresql-4
+ 2.2.11.jar jsr305-3.0.2.jar hamcrest-core-1.3.jar animal-sniffer-annota
+ tions-1.18.jar
+
